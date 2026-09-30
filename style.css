@@ -1,5 +1,5 @@
 @font-face {
-            font-family: "Bebas Nueue";
+            font-family: "Bebas Neue";
             src: url(fonts/bebas_neue/BebasNeue-Regular.ttf);
             font-weight: normal;
             font-style: normal;
@@ -35,7 +35,7 @@
             --light-red: #bb3521;
             --ease: cubic-bezier(0.22, 1, 0.36, 1);
             --shadow: rgba(51, 7, 15, 0.25);
-            --display: "Bebas Nueue", Impact, "Arial Narrow", sans-serif;
+            --display: "Bebas Neue", Impact, "Arial Narrow", sans-serif;
             --serif: "Alice", Georgia, serif;
         }
 
