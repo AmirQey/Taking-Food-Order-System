@@ -1,0 +1,9 @@
+employee: Muadz
+table: 4
+date: 2026-09-30
+time: 19:15
+takeaway: no
+Nasi Lemak Ayam Goreng, 2, extra sambal
+Grilled Chicken Chop, 1
+Iced Milk Tea, 3, less sugar
+Chocolate Lava Cake
