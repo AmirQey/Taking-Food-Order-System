@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Food Ordering System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Food Ordering System</h1>
+
+    <nav>
+        <div class="nav-bar">
+            <a href="#order" data-nav="order">Order</a>
+            <a href="#queue" data-nav="queue">Queue</a>
+            <a href="#paid" data-nav="paid">Paid</a>
+            <div class="nav-item">
+                <a href="#settings/menu" data-nav="settings">Settings</a>
+                <div class="dropdown">
+                    <div class="dropdown-card">
+                        <a href="#settings/menu" data-sub="menu">Menu</a>
+                        <a href="#settings/employee" data-sub="employee">Employee</a>
+                        <a href="#settings/table" data-sub="table">Table</a>
+                    </div>
+                </div>
+            </div>
+            <a href="#revenue" data-nav="revenue">Revenue</a>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- ================= ORDER ================= -->
+        <section class="view" id="view-order">
+            <div class="row">
+                <form class="take-form-bar" id="order-form">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label for="employees">Employee</label>
+                            <select name="employees" id="employees"></select>
+                        </div>
+                        <div class="form-col">
+                            <label for="tables">Table</label>
+                            <select name="tables" id="tables"></select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label for="order-date">Date</label>
+                            <input type="date" id="order-date" name="order-date">
+                        </div>
+                        <div class="form-col">
+                            <label for="order-time">Time</label>
+                            <input type="time" id="order-time" name="time">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <input type="checkbox" id="takeaway" name="takeaway" style="margin-left: 40px; margin-right: 10px;">
+                        <label for="takeaway">Takeaway</label>
+                    </div>
+                    <div class="form-row">
+                        <button type="submit" id="submit-btn">Add Order</button>
+                        <label for="import-file" class="import">Import .txt</label>
+                        <input type="file" class="original" id="import-file" accept=".txt">
+                        <button type="reset" id="clear-btn">Clear</button>
+                    </div>
+                </form>
+
+                <div class="menu-list-bar">
+                    <div class="combo">
+                        <select name="menu" id="category" aria-label="Menu category">
+                            <option value="mains">Mains</option>
+                            <option value="drinks">Drinks</option>
+                            <option value="desserts">Desserts</option>
+                            <option value="bites">Bites</option>
+                        </select>
+                    </div>
+                    <table class="table-menu">
+                        <thead>
+                            <tr>
+                                <th class="col-no">No.</th>
+                                <th class="col-name" style="text-align:left;">Name</th>
+                                <th class="col-price">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">
+                    <h2 id="draft-title">Current order</h2>
+                    <div class="pill">Total purchase: <span id="draft-total">RM 0.00</span></div>
+                </div>
+                <table class="data-table cols-order">
+                    <thead>
+                        <tr>
+                            <th class="c-no left">No.</th>
+                            <th class="c-name left">Name</th>
+                            <th class="c-qty">Quantity</th>
+                            <th class="c-notes">Note</th>
+                            <th class="c-price">Price</th>
+                            <th class="c-total">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="order-list"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ================= QUEUE ================= -->
+        <section class="view" id="view-queue" hidden>
+            <div class="panel">
+                <div class="toolbar">
+                    <div class="date-filter">
+                        <label for="queue-date">Date</label>
+                        <input type="date" id="queue-date">
+                        <button type="button" id="queue-all">All</button>
+                    </div>
+                    <div class="actions">
+                        <button type="button" class="btn-light" onclick="queueAction('finish')">Finish</button>
+                        <button type="button" class="btn-light" onclick="queueAction('remove')">Remove</button>
+                        <button type="button" class="btn-light" onclick="queueAction('edit')">Edit</button>
+                        <button type="button" class="btn-light" onclick="queueAction('view')">View</button>
+                    </div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th class="left" style="width:16%">Order ID</th>
+                            <th class="left" style="width:14%">Table</th>
+                            <th style="width:20%">Takeaway</th>
+                            <th style="width:25%">Total</th>
+                            <th style="width:25%">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="queue-list"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ================= PAID ================= -->
+        <section class="view" id="view-paid" hidden>
+            <div class="panel">
+                <div class="toolbar">
+                    <div class="date-filter">
+                        <label for="paid-date">Date</label>
+                        <input type="date" id="paid-date">
+                        <button type="button" id="paid-all">All</button>
+                    </div>
+                    <div class="actions">
+                        <button type="button" class="btn-light" onclick="paidAction()">Receipt</button>
+                    </div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th class="left" style="width:16%">Order ID</th>
+                            <th class="left" style="width:12%">Table</th>
+                            <th style="width:22%">Total</th>
+                            <th style="width:25%">Time</th>
+                            <th style="width:25%">Payment method</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paid-list"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ================= SETTINGS ================= -->
+        <section class="view" id="view-settings" hidden>
+            <div class="panel white-panel" id="settings-panel"></div>
+        </section>
+
+        <!-- ================= REVENUE ================= -->
+        <section class="view" id="view-revenue" hidden>
+            <div class="rev-wrap">
+                <div class="combo">
+                    <select id="rev-period" aria-label="Period">
+                        <option value="today">Today</option>
+                        <option value="week">Last 7 days</option>
+                        <option value="month">This month</option>
+                        <option value="all">All time</option>
+                    </select>
+                </div>
+                <div class="cards">
+                    <div class="card"><h3>Total revenue</h3><div class="big" id="rev-total">RM 0.00</div></div>
+                    <div class="card"><h3>Orders made</h3><div class="big" id="rev-count">0</div></div>
+                    <div class="card"><h3>Average order</h3><div class="big" id="rev-avg">RM 0.00</div></div>
+                </div>
+                <div class="card">
+                    <h3>Best seller items</h3>
+                    <div id="rev-best"></div>
+                </div>
+                <div class="chart-panel">
+                    <h3>Revenue by day</h3>
+                    <div class="chart" id="rev-chart"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <dialog id="dlg" aria-label="Order details"></dialog>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <div id="print-area"></div>
+    <script src="script.js"></script>
+</body>
+</html>
